@@ -5,17 +5,19 @@ import java.util.Hashtable;
 
 import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.google.gson.Gson;
 
 import vn.com.payment.config.AppConfig;
 import vn.com.payment.gateway.database.entities.Isomessage;
+import vn.com.payment.gateway.database.entities.IsomessageDto;
 import vn.com.payment.gateway.database.home.TblIsomessageHome;
 @Component
 public class KafkaAwaitilityListener {
@@ -29,27 +31,7 @@ public class KafkaAwaitilityListener {
 	
 	@Autowired
 	private TblIsomessageHome tblIsomessageHome;
-	// lắng nghe dữ liệu từ gateway
-//	@KafkaListener(topics = "#{'${app.topicGateway}'}", groupId = "#{'${app.groupIDGateway}'}")
-//	public void listenTopicGateway(ConsumerRecord<String, String> record) {
-//		System.out.println("===================================================================================================");
-//		log.info("listenTopicGateway data : " + record);
-//		System.out.println("========");
-//		System.out.println("Received record: " + record);
-//		System.out.println("Topic: " + record.topic());
-//		System.out.println("Partition: " + record.partition());
-//		System.out.println("Offset: " + record.offset());
-//		System.out.println("Key: " + record.key());
-//		System.out.println("Value: " + record.value());
-//		System.out.println("Timestamp: " + record.timestamp());
-//		System.out.println("Headers: " + record.headers());
-//		System.out.println("========");
-//		log.info("listenTopicGateway record.value(): " + record.value());
-////    	Thread threadGW = new Thread(new ThreadListenGW(record.value()));
-//////    	threadGW.start();
-////    	/*Thangtc 11/4: Them xu ly thread Pool*/
-////    	ThreadPoolManager.shareInstance().excute(threadGW);
-//	}
+
 	@KafkaListener(topics = "#{'${app.topicGateway}'}", groupId = "#{'${app.groupIDGateway}'}")
 	public void listenTopicGateway(ConsumerRecord<String, GenericRecord> record) {
         System.out.println("===================================================================================================");
@@ -65,26 +47,36 @@ public class KafkaAwaitilityListener {
         GenericRecord value = record.value();
         if (value != null) {
             System.out.println("Value (full Avro JSON): " + value);
-
-            GenericRecord after = (GenericRecord) value.get("after");
-            if (after != null) {
-                try {
-                    // Convert Avro GenericRecord -> JSON string -> POJO
-                    String json = after.toString();
-                    Isomessage isomessage = mapper.readValue(json, Isomessage.class);
-                    System.out.println("Mapped DTO = " + isomessage);
-                    System.out.println("Mapped DTO = " + gson.toJson(isomessage));
+            String op = value.get("op").toString();
+            System.out.println("Operation = " + op);
+            if ("c".equals(op) || "u".equals(op)) {
+            	GenericRecord after = (GenericRecord) value.get("after");
+                if (after != null) {
                     try {
-                        Isomessage savedIsomessage = tblIsomessageHome.save(isomessage);
-                        System.out.println("savedIsomessage: " + gson.toJson(savedIsomessage));
-					} catch (Exception e) {
-						System.out.println("Exception save Isomessage: " + e);
-						e.printStackTrace();
-					}                  
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        // Convert Avro GenericRecord -> JSON string -> POJO
+                      String json = after.toString().trim();                       
+                      System.out.println("=========json:  "+ json);                        
+//                     // JSON -> DTO
+                      ObjectMapper objectMapper = new ObjectMapper();
+                      IsomessageDto isomessageDto = objectMapper.readValue(json, IsomessageDto.class);
+                      // DTO -> Entity
+                      ModelMapper mapperIsome = new ModelMapper();
+                      Isomessage isomessage = mapperIsome.map(isomessageDto, Isomessage.class);
+                        try {
+                            Isomessage savedIsomessage = tblIsomessageHome.save(isomessage);
+                            System.out.println(savedIsomessage.getTidbId());
+//                            System.out.println("savedIsomessage: " + gson.toJson(savedIsomessage));
+    					} catch (Exception e) {
+    						System.out.println("Exception save Isomessage: " + e);
+    						e.printStackTrace();
+    					}                  
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
+            } else {
+                System.out.println("Bỏ qua event không có after (op=" + op + ")");
+            }         
         }
 
         System.out.println("Timestamp: " + record.timestamp());
@@ -92,10 +84,6 @@ public class KafkaAwaitilityListener {
         System.out.println("========");
 
         log.info("listenTopicGateway Avro value: {}", value);
-
-        // Nếu bạn cần xử lý bằng thread pool
-        // Thread threadGW = new Thread(new ThreadListenGW(value.toString()));
-        // ThreadPoolManager.shareInstance().excute(threadGW);
         
      // Ngủ 1 tiếng
         System.out.println("Consumer sẽ nghỉ 1 tiếng...");

@@ -1,645 +1,183 @@
 package vn.com.payment.gateway.database.entities;
 
-import java.io.Serializable;
-//import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+
 import jakarta.annotation.*;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-/**
- * The persistent class for the ISOMESSAGE database table.
- * 
- */
+@Getter
+@Setter
 @Entity
-@NamedQuery(name = "Isomessage.findAll", query = "SELECT i FROM Isomessage i")
-public class Isomessage implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "ISOMESSAGE", schema = "test")
+public class Isomessage {
 
-	@Column(name = "ACCOUNT_NO")
-	private String accountNo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tidb_id")
+    private Long tidbId;
 
-	@Column(name = "ACQ_ID")
-	private String acqId;
+    @Column(name = "SEQ_NO")
+    private Long seqNo;
 
-	@Column(name = "ACQ_INST_COUNTRY_CODE")
-	private String acqInstCountryCode;
+    @Column(name = "MTI", length = 12)
+    private String mti;
 
-	@Column(name = "ADD_INFO")
-	private String addInfo;
+    @Column(name = "CARD_NO", length = 57)
+    private String cardNo;
 
-	@Column(name = "ADD_RECORD_DATA")
-	private String addRecordData;
+    @Column(name = "PROC_CODE", length = 18)
+    private String procCode;
 
-	private BigDecimal amount;
+    @Column(name = "ORIGINAL_DATE", length = 30)
+    private String originalDate;
 
-	@Column(name = "AMOUNT_CARDHOLDER")
-	private BigDecimal amountCardholder;
+    @Column(name = "TRACE_NO", length = 18)
+    private String traceNo;
 
-	@Column(name = "AMOUNT_SETTLEMENT")
-	private BigDecimal amountSettlement;
+    @Column(name = "REF_NO", length = 36)
+    private String refNo;
 
-	@Column(name = "APPROVAL_CODE")
-	private String approvalCode;
+    @Column(name = "ACQ_ID", length = 33)
+    private String acqId;
 
-	@Column(name = "BEN_ID")
-	private String benId;
+    @Column(name = "ISS_ID", length = 33)
+    private String issId;
 
-	@Column(name = "CARD_ACCEPT_ID_CODE")
-	private String cardAcceptIdCode;
+    @Column(name = "APPROVAL_CODE", length = 18)
+    private String approvalCode;
 
-	@Column(name = "CARD_ACCEPT_NAME_LOCATION")
-	private String cardAcceptNameLocation;
+    @Column(name = "RESPONSE_CODE", length = 9)
+    private String responseCode;
 
-	@Column(name = "CARD_NO")
-	private String cardNo;
+    @Column(name = "TERM_ID", length = 24)
+    private String termId;
 
-	@Column(name = "CONVERSION_RATE_CARDHOLDER")
-	private String conversionRateCardholder;
+    @Column(name = "ORIGINAL_DATA", length = 4000)
+    private String originalData;
 
-	@Column(name = "CONVERSION_RATE_SETTLEMENT")
-	private String conversionRateSettlement;
+    @Column(name = "REVERSED", length = 3)
+    private String reversed;
 
-	@Column(name = "CP_BALANCE_AMOUNT")
-	private BigDecimal cpBalanceAmount;
+    @Column(name = "TNX_STAMP")
+    private LocalDateTime tnxStamp;
 
-	@Column(name = "CP_RESPONSE_CODE")
-	private String cpResponseCode;
+    @Column(name = "PACKAGER", length = 300)
+    private String packager;
 
-	@Column(name = "CP_TRACE_NUMBER")
-	private String cpTraceNumber;
+    @Column(name = "AMOUNT")
+    private Long amount;
 
-	@Column(name = "CURRENCY_CODE")
-	private String currencyCode;
+    @Column(name = "ACCOUNT_NO", length = 69)
+    private String accountNo;
 
-	@Column(name = "CURRENCY_CODE_CARDHOLDER")
-	private String currencyCodeCardholder;
+    @Column(name = "LOCAL_TIME", length = 18)
+    private String localTime;
 
-	@Column(name = "CURRENCY_CODE_SETTLEMENT")
-	private String currencyCodeSettlement;
+    @Column(name = "LOCAL_DATE", length = 12)
+    private String localDate;
 
-	@Column(name = "DEST_ACCOUNT")
-	private String destAccount;
+    @Column(name = "SETTLE_DATE", length = 12)
+    private String settleDate;
 
-	@Column(name = "IBFT_INFO")
-	private String ibftInfo;
+    @Column(name = "MCC", length = 12)
+    private String mcc;
 
-	@Column(name = "INFO_HOLDER_BENECIARY")
-	private String infoHolderBeneciary;
+    @Column(name = "CURRENCY_CODE", length = 9)
+    private String currencyCode;
 
-	@Column(name = "ISS_ID")
-	private String issId;
+    @Column(name = "DEST_ACCOUNT", length = 69)
+    private String destAccount;
 
-	@Column(name = "LAST_MESSAGE_NUMBER")
-	private BigDecimal lastMessageNumber;
+    @Column(name = "RECONCILE_TIME")
+    private LocalDateTime reconcileTime;
 
-	@Column(name = "LOCAL_DATE")
-	private String localDate;
+    @Column(name = "TRANX_DATE")
+    private LocalDateTime tranxDate;
 
-	@Column(name = "LOCAL_TIME")
-	private String localTime;
+    @Column(name = "ADD_INFO", length = 765)
+    private String addInfo;
 
-	private String mcc;
+    @Column(name = "SERVICE_CODE", length = 90)
+    private String serviceCode;
 
-	@Column(name = "MESSAGE_NUMBER")
-	private BigDecimal messageNumber;
-	private String mti;
-	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "ORIGINAL_DATA")
-//	 @Basic(fetch = FetchType.LAZY)
-	private String originalData;
+    @Column(name = "VAS_INFO", length = 600)
+    private String vasInfo;
 
-	@Column(name = "ORIGINAL_DATE")
-	private String originalDate;
+    @Column(name = "BEN_ID", length = 33)
+    private String benId;
 
-	private String packager;
+    @Column(name = "IBFT_INFO", length = 999)
+    private String ibftInfo;
 
-	@Column(name = "PAYMENT_CODE")
-	private BigDecimal paymentCode;
+    @Column(name = "AMOUNT_SETTLEMENT")
+    private Long amountSettlement;
 
-	@Column(name = "POS_CONDITION_CODE")
-	private String posConditionCode;
+    @Column(name = "AMOUNT_CARDHOLDER")
+    private Long amountCardholder;
 
-	@Column(name = "POS_ENTRY_MODE")
-	private String posEntryMode;
+    @Column(name = "CURRENCY_CODE_SETTLEMENT", length = 9)
+    private String currencyCodeSettlement;
 
-	@Column(name = "PROC_CODE")
-	private String procCode;
+    @Column(name = "CURRENCY_CODE_CARDHOLDER", length = 9)
+    private String currencyCodeCardholder;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "RECONCILE_TIME")
-	private Date reconcileTime;
+    @Column(name = "CONVERSION_RATE_SETTLEMENT", length = 8)
+    private String conversionRateSettlement;
 
-	@Column(name = "RECORD_DATA")
-	private String recordData;
+    @Column(name = "CONVERSION_RATE_CARDHOLDER", length = 8)
+    private String conversionRateCardholder;
 
-	@Column(name = "REF_NO")
-	private String refNo;
+    @Column(name = "USER_DEFINE", length = 60)
+    private String userDefine;
 
-	@Column(name = "RESPONSE_CODE")
-	private String responseCode;
+    @Column(name = "TRANX_REF", length = 16)
+    private String tranxRef;
 
-	private String reversed;
+    @Column(name = "ACQ_INST_COUNTRY_CODE", length = 9)
+    private String acqInstCountryCode;
 
-	private String reversed123;
+    @Column(name = "POS_ENTRY_MODE", length = 6)
+    private String posEntryMode;
 
-	private String reversed124;
+    @Column(name = "POS_CONDITION_CODE", length = 6)
+    private String posConditionCode;
 
-	private String reversed125;
+    @Column(name = "CARD_ACCEPT_ID_CODE", length = 15)
+    private String cardAcceptIdCode;
 
-	@Id
-	@Column(name = "SEQ_NO")
-	private BigDecimal seqNo;
+    @Column(name = "CARD_ACCEPT_NAME_LOCATION", length = 40)
+    private String cardAcceptNameLocation;
 
-	@Column(name = "SERVICE_CODE")
-	private String serviceCode;
+    @Column(name = "PAYMENT_CODE")
+    private Integer paymentCode;
 
-	@Column(name = "SETTLE_DATE")
-	private String settleDate;
+    @Column(name = "INFO_HOLDER_BENECIARY", length = 100)
+    private String infoHolderBeneciary;
 
-	@Column(name = "SETTLEMENT_CODE")
-	private BigDecimal settlementCode;
+    @Column(name = "RECORD_DATA", length = 999)
+    private String recordData;
 
-	@Column(name = "TERM_ID")
-	private String termId;
+    @Column(name = "ADD_RECORD_DATA", length = 999)
+    private String addRecordData;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "TNX_STAMP")
-	private Date tnxStamp;
+    @Column(name = "REVERSED123", length = 999)
+    private String reversed123;
 
-	@Column(name = "TRACE_NO")
-	private String traceNo;
+    @Column(name = "REVERSED124", length = 999)
+    private String reversed124;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "TRANX_DATE")
-	private Date tranxDate;
+    @Column(name = "REVERSED125", length = 999)
+    private String reversed125;
 
-	@Column(name = "TRANX_REF")
-	private String tranxRef;
+    @Column(name = "MESSAGE_NUMBER")
+    private Short messageNumber;
 
-	@Column(name = "USER_DEFINE")
-	private String userDefine;
+    @Column(name = "LAST_MESSAGE_NUMBER")
+    private Short lastMessageNumber;
 
-	@Column(name = "VAS_INFO")
-	private String vasInfo;
-
-	public Isomessage() {
-	}
-
-	public String getAccountNo() {
-		return this.accountNo;
-	}
-
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
-	}
-
-	public String getAcqId() {
-		return this.acqId;
-	}
-
-	public void setAcqId(String acqId) {
-		this.acqId = acqId;
-	}
-
-	public String getAcqInstCountryCode() {
-		return this.acqInstCountryCode;
-	}
-
-	public void setAcqInstCountryCode(String acqInstCountryCode) {
-		this.acqInstCountryCode = acqInstCountryCode;
-	}
-
-	public String getAddInfo() {
-		return this.addInfo;
-	}
-
-	public void setAddInfo(String addInfo) {
-		this.addInfo = addInfo;
-	}
-
-	public String getAddRecordData() {
-		return this.addRecordData;
-	}
-
-	public void setAddRecordData(String addRecordData) {
-		this.addRecordData = addRecordData;
-	}
-
-	public BigDecimal getAmount() {
-		return this.amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public BigDecimal getAmountCardholder() {
-		return this.amountCardholder;
-	}
-
-	public void setAmountCardholder(BigDecimal amountCardholder) {
-		this.amountCardholder = amountCardholder;
-	}
-
-	public BigDecimal getAmountSettlement() {
-		return this.amountSettlement;
-	}
-
-	public void setAmountSettlement(BigDecimal amountSettlement) {
-		this.amountSettlement = amountSettlement;
-	}
-
-	public String getApprovalCode() {
-		return this.approvalCode;
-	}
-
-	public void setApprovalCode(String approvalCode) {
-		this.approvalCode = approvalCode;
-	}
-
-	public String getBenId() {
-		return this.benId;
-	}
-
-	public void setBenId(String benId) {
-		this.benId = benId;
-	}
-
-	public String getCardAcceptIdCode() {
-		return this.cardAcceptIdCode;
-	}
-
-	public void setCardAcceptIdCode(String cardAcceptIdCode) {
-		this.cardAcceptIdCode = cardAcceptIdCode;
-	}
-
-	public String getCardAcceptNameLocation() {
-		return this.cardAcceptNameLocation;
-	}
-
-	public void setCardAcceptNameLocation(String cardAcceptNameLocation) {
-		this.cardAcceptNameLocation = cardAcceptNameLocation;
-	}
-
-	public String getCardNo() {
-		return this.cardNo;
-	}
-
-	public void setCardNo(String cardNo) {
-		this.cardNo = cardNo;
-	}
-
-	public String getConversionRateCardholder() {
-		return this.conversionRateCardholder;
-	}
-
-	public void setConversionRateCardholder(String conversionRateCardholder) {
-		this.conversionRateCardholder = conversionRateCardholder;
-	}
-
-	public String getConversionRateSettlement() {
-		return this.conversionRateSettlement;
-	}
-
-	public void setConversionRateSettlement(String conversionRateSettlement) {
-		this.conversionRateSettlement = conversionRateSettlement;
-	}
-
-	public BigDecimal getCpBalanceAmount() {
-		return this.cpBalanceAmount;
-	}
-
-	public void setCpBalanceAmount(BigDecimal cpBalanceAmount) {
-		this.cpBalanceAmount = cpBalanceAmount;
-	}
-
-	public String getCpResponseCode() {
-		return this.cpResponseCode;
-	}
-
-	public void setCpResponseCode(String cpResponseCode) {
-		this.cpResponseCode = cpResponseCode;
-	}
-
-	public String getCpTraceNumber() {
-		return this.cpTraceNumber;
-	}
-
-	public void setCpTraceNumber(String cpTraceNumber) {
-		this.cpTraceNumber = cpTraceNumber;
-	}
-
-	public String getCurrencyCode() {
-		return this.currencyCode;
-	}
-
-	public void setCurrencyCode(String currencyCode) {
-		this.currencyCode = currencyCode;
-	}
-
-	public String getCurrencyCodeCardholder() {
-		return this.currencyCodeCardholder;
-	}
-
-	public void setCurrencyCodeCardholder(String currencyCodeCardholder) {
-		this.currencyCodeCardholder = currencyCodeCardholder;
-	}
-
-	public String getCurrencyCodeSettlement() {
-		return this.currencyCodeSettlement;
-	}
-
-	public void setCurrencyCodeSettlement(String currencyCodeSettlement) {
-		this.currencyCodeSettlement = currencyCodeSettlement;
-	}
-
-	public String getDestAccount() {
-		return this.destAccount;
-	}
-
-	public void setDestAccount(String destAccount) {
-		this.destAccount = destAccount;
-	}
-
-	public String getIbftInfo() {
-		return this.ibftInfo;
-	}
-
-	public void setIbftInfo(String ibftInfo) {
-		this.ibftInfo = ibftInfo;
-	}
-
-	public String getInfoHolderBeneciary() {
-		return this.infoHolderBeneciary;
-	}
-
-	public void setInfoHolderBeneciary(String infoHolderBeneciary) {
-		this.infoHolderBeneciary = infoHolderBeneciary;
-	}
-
-	public String getIssId() {
-		return this.issId;
-	}
-
-	public void setIssId(String issId) {
-		this.issId = issId;
-	}
-
-	public BigDecimal getLastMessageNumber() {
-		return this.lastMessageNumber;
-	}
-
-	public void setLastMessageNumber(BigDecimal lastMessageNumber) {
-		this.lastMessageNumber = lastMessageNumber;
-	}
-
-	public String getLocalDate() {
-		return this.localDate;
-	}
-
-	public void setLocalDate(String localDate) {
-		this.localDate = localDate;
-	}
-
-	public String getLocalTime() {
-		return this.localTime;
-	}
-
-	public void setLocalTime(String localTime) {
-		this.localTime = localTime;
-	}
-
-	public String getMcc() {
-		return this.mcc;
-	}
-
-	public void setMcc(String mcc) {
-		this.mcc = mcc;
-	}
-
-	public BigDecimal getMessageNumber() {
-		return this.messageNumber;
-	}
-
-	public void setMessageNumber(BigDecimal messageNumber) {
-		this.messageNumber = messageNumber;
-	}
-
-	public String getMti() {
-		return this.mti;
-	}
-
-	public void setMti(String mti) {
-		this.mti = mti;
-	}
-
-	public String getOriginalData() {
-		return this.originalData;
-	}
-
-	public void setOriginalData(String originalData) {
-		this.originalData = originalData;
-	}
-
-	public String getOriginalDate() {
-		return this.originalDate;
-	}
-
-	public void setOriginalDate(String originalDate) {
-		this.originalDate = originalDate;
-	}
-
-	public String getPackager() {
-		return this.packager;
-	}
-
-	public void setPackager(String packager) {
-		this.packager = packager;
-	}
-
-	public BigDecimal getPaymentCode() {
-		return this.paymentCode;
-	}
-
-	public void setPaymentCode(BigDecimal paymentCode) {
-		this.paymentCode = paymentCode;
-	}
-
-	public String getPosConditionCode() {
-		return this.posConditionCode;
-	}
-
-	public void setPosConditionCode(String posConditionCode) {
-		this.posConditionCode = posConditionCode;
-	}
-
-	public String getPosEntryMode() {
-		return this.posEntryMode;
-	}
-
-	public void setPosEntryMode(String posEntryMode) {
-		this.posEntryMode = posEntryMode;
-	}
-
-	public String getProcCode() {
-		return this.procCode;
-	}
-
-	public void setProcCode(String procCode) {
-		this.procCode = procCode;
-	}
-
-	public Date getReconcileTime() {
-		return this.reconcileTime;
-	}
-
-	public void setReconcileTime(Date reconcileTime) {
-		this.reconcileTime = reconcileTime;
-	}
-
-	public String getRecordData() {
-		return this.recordData;
-	}
-
-	public void setRecordData(String recordData) {
-		this.recordData = recordData;
-	}
-
-	public String getRefNo() {
-		return this.refNo;
-	}
-
-	public void setRefNo(String refNo) {
-		this.refNo = refNo;
-	}
-
-	public String getResponseCode() {
-		return this.responseCode;
-	}
-
-	public void setResponseCode(String responseCode) {
-		this.responseCode = responseCode;
-	}
-
-	public String getReversed() {
-		return this.reversed;
-	}
-
-	public void setReversed(String reversed) {
-		this.reversed = reversed;
-	}
-
-	public String getReversed123() {
-		return this.reversed123;
-	}
-
-	public void setReversed123(String reversed123) {
-		this.reversed123 = reversed123;
-	}
-
-	public String getReversed124() {
-		return this.reversed124;
-	}
-
-	public void setReversed124(String reversed124) {
-		this.reversed124 = reversed124;
-	}
-
-	public String getReversed125() {
-		return this.reversed125;
-	}
-
-	public void setReversed125(String reversed125) {
-		this.reversed125 = reversed125;
-	}
-
-	public BigDecimal getSeqNo() {
-		return this.seqNo;
-	}
-
-	public void setSeqNo(BigDecimal seqNo) {
-		this.seqNo = seqNo;
-	}
-
-	public String getServiceCode() {
-		return this.serviceCode;
-	}
-
-	public void setServiceCode(String serviceCode) {
-		this.serviceCode = serviceCode;
-	}
-
-	public String getSettleDate() {
-		return this.settleDate;
-	}
-
-	public void setSettleDate(String settleDate) {
-		this.settleDate = settleDate;
-	}
-
-	public BigDecimal getSettlementCode() {
-		return this.settlementCode;
-	}
-
-	public void setSettlementCode(BigDecimal settlementCode) {
-		this.settlementCode = settlementCode;
-	}
-
-	public String getTermId() {
-		return this.termId;
-	}
-
-	public void setTermId(String termId) {
-		this.termId = termId;
-	}
-
-	public Date getTnxStamp() {
-		return this.tnxStamp;
-	}
-
-	public void setTnxStamp(Date tnxStamp) {
-		this.tnxStamp = tnxStamp;
-	}
-
-	public String getTraceNo() {
-		return this.traceNo;
-	}
-
-	public void setTraceNo(String traceNo) {
-		this.traceNo = traceNo;
-	}
-
-	public Date getTranxDate() {
-		return this.tranxDate;
-	}
-
-	public void setTranxDate(Date tranxDate) {
-		this.tranxDate = tranxDate;
-	}
-
-	public String getTranxRef() {
-		return this.tranxRef;
-	}
-
-	public void setTranxRef(String tranxRef) {
-		this.tranxRef = tranxRef;
-	}
-
-	public String getUserDefine() {
-		return this.userDefine;
-	}
-
-	public void setUserDefine(String userDefine) {
-		this.userDefine = userDefine;
-	}
-
-	public String getVasInfo() {
-		return this.vasInfo;
-	}
-
-	public void setVasInfo(String vasInfo) {
-		this.vasInfo = vasInfo;
-	}
-
+    @Column(name = "SETTLEMENT_CODE")
+    private Integer settlementCode;
 }
